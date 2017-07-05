@@ -164,6 +164,9 @@
         "description": "The type of the Storage Account created"
       },
       "defaultValue": "Standard_LRS"
+    },
+    "ouPath": {
+      "type": "string"
     }
   },
   "variables": {
@@ -562,6 +565,9 @@
           },
           "sharePointSetupUserAccountPassword": {
             "value": "[parameters('sharePointSetupUserAccountPassword')]"
+          },
+          "ouPath": {
+            "value": "[parameters('ouPath')]"
           }
         }
       }
@@ -636,6 +642,9 @@
           },
           "sharepointFarmName": {
             "value": "[parameters('sharepointFarmName')]"
+          },
+          "ouPath": {
+            "value": "[parameters('ouPath')]"
           }
         }
       }

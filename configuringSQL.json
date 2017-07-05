@@ -34,14 +34,44 @@
     },
     "sharePointSetupUserAccountPassword": {
       "type": "securestring"
+    },
+    "ouPath": {
+      "type": "string"
     }
   },
   "resources": [
+    {
+      "apiVersion": "2016-03-30",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(parameters('sqlVMName'),'/joindomain')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+      ],
+      "properties": {
+        "publisher": "Microsoft.Compute",
+        "type": "JsonADDomainExtension",
+        "typeHandlerVersion": "1.3",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "Name": "[parameters('domainName')]",
+          "OUPath": "[parameters('ouPath')]",
+          "User": "[concat(parameters('adminUserName'), '@', parameters('domainname'))]",
+          "Restart": "true",
+          "Options": 3
+        },
+        "protectedSettings": {
+          "Password": "[parameters('adminPassword')]"
+        }
+      }
+    },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('sqlVMName'),'/CreateSQLServer')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
+      "dependson": [
+        "[concat('Microsoft.Compute/virtualMachines/', parameters('sqlVMName'), '/extensions/joindomain')]"
+      ],
       "properties": {
         "publisher": "Microsoft.Powershell",
         "type": "DSC",
