@@ -107,11 +107,8 @@
         "settings": {
           "ModulesUrl": "[parameters('spPrepareModulesURL')]",
           "wmfVersion": "4.0",
-          "ConfigurationFunction": "[parameters('spPreparationFunction')]",
-          "Properties": {
-          }
-        },
-        "protectedSettings": null
+          "ConfigurationFunction": "[parameters('spPreparationFunction')]"
+        }
       }
     }
   ]
