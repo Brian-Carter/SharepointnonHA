@@ -203,7 +203,6 @@
     "sqlLogDiskSize": 1000,
     "spDataDisk": "SPDataDisk",
     "spDataDiskSize": 1000,
-    "adpublicIPAddressName": "adpublicIP",
     "sqlpublicIPAddressName": "sqlpublicIP",
     "spCentralAdminPort": 8080,
     "publicIPAddressType": "Dynamic",
@@ -520,7 +519,6 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/UpdatingDNStoPrimaryADVM"
       ],
       "properties": {
         "mode": "Incremental",
