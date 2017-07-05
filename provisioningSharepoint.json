@@ -31,9 +31,6 @@
     },
     "storageAccountNamePrefix": {
       "type": "string"
-    },
-    "DNSServerAddress": {
-      "type": "string"
     }
   },
   "resources": [

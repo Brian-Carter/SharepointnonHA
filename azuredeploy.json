@@ -120,7 +120,7 @@
         "artifactsBaseUrl": "",
         "description": "URL to acquire other templates"
       },
-      "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/sharepoint-three-vm"
+      "defaultValue": "https://raw.githubusercontent.com/Brian-Carter/SharepointnonHA/master"
     },
     "spPublicIPNewOrExisting": {
       "type": "string",
