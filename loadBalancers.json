@@ -27,11 +27,8 @@
     "spCANAT": {
       "type": "string"
     },
-    "spPublicIPResourceId": {
-      "type": "string"
-    },
 
-    "sqlPublicIpResourceId": {
+    "subnetId": {
       "type": "string"
     }
   },
@@ -46,8 +43,9 @@
           {
             "name": "[parameters('LBFE')]",
             "properties": {
-              "publicIPAddress": {
-                "id": "[parameters('spPublicIPResourceId')]"
+                "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[parameters('subnetId')]"
               }
             }
           }
@@ -108,8 +106,11 @@
           {
             "name": "[parameters('LBFE')]",
             "properties": {
-              "publicIPAddress": {
-                "id": "[parameters('sqlPublicIpResourceId')]"
+              "properties": {
+                "privateIPAllocationMethod": "Dynamic",
+                "subnet": {
+                  "id": "[parameters('subnetId')]"
+                }
               }
             }
           }

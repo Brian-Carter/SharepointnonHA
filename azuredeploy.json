@@ -16,13 +16,6 @@
       },
       "defaultValue": "[resourceGroup().location]"
     },
-    "virtualNetworkName": {
-      "type": "string",
-      "metadata": {
-        "description": "The name of the Virtual Network to Create"
-      },
-      "defaultValue": "spfarmVNET"
-    },
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -53,8 +46,7 @@
       "type": "string",
       "metadata": {
         "description": "The FQDN of the AD Domain created "
-      },
-      "defaultValue": "contoso.local"
+      }
     },
     "sqlServerServiceAccountUserName": {
       "type": "string",
@@ -188,6 +180,7 @@
     "spNicName": "spNic",
     "virtualNetworkResourceGroupName": "vnet",
     "virtualNetworkName": "vnet",
+    "subnetId": "/subscriptions/8f073ab4-010c-4c4a-ae51-ea5a69114402/resourceGroups/VNET/providers/Microsoft.Network/virtualNetworks/VNET/subnets/v-backend",
     "vnetID": "[resourceId(variables('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
     "sqlSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('sqlSubnetName'))]",
     "spSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('spSubnetName'))]",
@@ -211,11 +204,7 @@
     "spDataDiskSize": 1000,
     "sqlpublicIPAddressName": "sqlpublicIP",
     "spCentralAdminPort": 8080,
-    "publicIPAddressType": "Dynamic",
-    "SpPublicIpexisting": "[resourceId(parameters('spPublicIPRGName'),concat('Microsoft.Network','/','publicIPAddresses'),parameters('sppublicIPAddressName'))]",
-    "SpPublicIpnew": "[resourceId(concat('Microsoft.Network','/','publicIPAddresses'),parameters('sppublicIPAddressName'))]",
-    "sqlPublicIpResourceId": "[resourceId(concat('Microsoft.Network','/','publicIPAddresses'),variables('sqlpublicIPAddressName'))]",
-    "spFQDN": "[concat(parameters('spDNSPrefix'),'.',toLower(trim(replace(parameters('location'),' ' ,''))),'.cloudapp.azure.com')]",
+    "spFQDN": "[concat(parameters('spDNSPrefix'),'.',parameters('domainName'))]",
     "splbResourceId": "[resourceId(concat('Microsoft.Network','/','loadBalancers'),variables('spLBName'))]",
     "sqlConfigureModulesURL": "[concat(variables('assetLocation'),'/ConfigureSqlServer.ps1.zip')]",
     "sqlConfigurationFunction": "ConfigureSqlServer.ps1\\ConfigureSqlServer",
@@ -225,7 +214,6 @@
     "sqlPreparationFunction": "PrepareSqlServer.ps1\\PrepareSqlServer",
     "spPrepareModulesURL": "[concat(variables('assetLocation'),'/PrepareSharePointServer.ps1.zip')]",
     "spPreparationFunction": "PrepareSharePointServer.ps1\\PrepareSharePointServer",
-    "SettingUpSharepointIPUrl": "[concat(parameters('baseUrl'),'/publicip-',parameters('spPublicIPNewOrExisting'),'.json')]",
     "storageAccountSetupURL": "[concat(parameters('baseUrl'),'/storageAccount.json')]",
     "creatingPublicIPsUrl": "[concat(parameters('baseUrl'),'/creatingPublicIPs.json')]",
     "vnetSetupURL": "[concat(parameters('baseUrl'),'/vnet-new.json')]",
@@ -261,66 +249,13 @@
       }
     },
 
-    {
-      "name": "SettingUpPublicIPs",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('creatingPublicIPsUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "sqlpublicIPAddressName": {
-            "value": "[variables('sqlpublicIPAddressName')]"
-          },
-          "publicIPAddressType": {
-            "value": "[variables('publicIPAddressType')]"
-          }
-        }
-      }
-    },
-
-    {
-      "name": "SettingUpSharepointIP",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('SettingUpSharepointIPUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "publicIpAddressName": {
-            "value": "[parameters('sppublicIPAddressName')]"
-          },
-          "publicIPAddressType": {
-            "value": "[variables('publicIPAddressType')]"
-          },
-          "dnsPrefix": {
-            "value": "[parameters('spDNSPrefix')]"
-          },
-          "publicIpRGName": {
-            "value": "[parameters('spPublicIPRGName')]"
-          }
-        }
-      }
-    },
+    
+    
     {
       "name": "SettingUpLoadBalancers",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/SettingUpSharepointIP",
-        "Microsoft.Resources/deployments/SettingUpPublicIPs"
       ],
       "properties": {
         "mode": "Incremental",
@@ -353,12 +288,8 @@
           "spCANAT": {
             "value": "[variables('spCANAT')]"
           },
-
-          "spPublicIPResourceId": {
-            "value": "[variables(concat('SpPublicIP',parameters('spPublicIPNewOrExisting')))]"
-          },
-          "sqlPublicIpResourceId": {
-            "value": "[variables('sqlPublicIpResourceId')]"
+          "subnetId": {
+            "value": "[variables('subnetId')]"
           }
         }
       }
@@ -368,7 +299,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/SettingUpLoadBalancers",
+        "Microsoft.Resources/deployments/SettingUpLoadBalancers"
       ],
       "properties": {
         "mode": "Incremental",
