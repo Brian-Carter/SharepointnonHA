@@ -29,9 +29,7 @@
     "sharePointFarmPassphrasePassword": {
       "value": "GEN-PASSWORD"
     },
-    "sppublicIPAddressName": {
-      "value": "sppublicIP"
-    },
+
     "spDNSPrefix": {
       "value": "GEN-UNIQUE"
     },
