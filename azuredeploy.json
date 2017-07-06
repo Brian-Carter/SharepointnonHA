@@ -33,14 +33,14 @@
       "metadata": {
         "description": "The size of the SQL VM Created"
       },
-      "defaultValue": "Standard_D2_v2_Promo"
+      "defaultValue": "Standard_A4_v2"
     },
     "spVMSize": {
       "type": "string",
       "metadata": {
         "description": "The size of the VM Created"
       },
-      "defaultValue": "Standard_D3_v2_Promo"
+      "defaultValue": "Standard_D3_v2"
     },
     "domainName": {
       "type": "string",

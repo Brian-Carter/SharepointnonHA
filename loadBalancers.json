@@ -106,12 +106,10 @@
           {
             "name": "[parameters('LBFE')]",
             "properties": {
-              "properties": {
-                "privateIPAllocationMethod": "Dynamic",
-                "subnet": {
-                  "id": "[parameters('subnetId')]"
-                }
-              }
+              "privateIPAllocationMethod": "Dynamic",
+              "subnet": {
+                "id": "[parameters('subnetId')]"
+              } 
             }
           }
         ],
