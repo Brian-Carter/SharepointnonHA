@@ -136,6 +136,18 @@
     },
     "ouPath": {
       "type": "string"
+    },
+    "virtualNetworkName": {
+      "type": "string"
+    },
+    "virtualNetworkResourceGroupName": {
+      "type": "string"
+    },
+    "sqlSubnetName": {
+      "type": "string"
+    },
+    "spSubnetName": {
+      "type": "string"
     }
   },
   "variables": {
@@ -150,16 +162,12 @@
     "RDPNAT": "RDP",
     "spWebNAT": "spWeb",
     "spCANAT": "spCentralAdmin",
-    "sqlSubnetName": "V-backend",
-    "spSubnetName": "v-backend",
     "sqlNicName": "sqlNic",
     "spNicName": "spNic",
-    "virtualNetworkResourceGroupName": "vnet",
-    "virtualNetworkName": "vnet",
-    "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('sqlSubnetName'))]",
-    "vnetID": "[resourceId(variables('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
-    "sqlSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('sqlSubnetName'))]",
-    "spSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('spSubnetName'))]",
+    "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('sqlSubnetName'))]",
+    "vnetID": "[resourceId(parameters('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "sqlSubnetRef": "[concat(variables('VnetID'),'/subnets/',parameters('sqlSubnetName'))]",
+    "spSubnetRef": "[concat(variables('VnetID'),'/subnets/',parameters('spSubnetName'))]",
     "sqlNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('sqlNicName'))]",
     "spNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('spNicName'))]",
     "sqlLBName": "sqlLoadBalancer",
