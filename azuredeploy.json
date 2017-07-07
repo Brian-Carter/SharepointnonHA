@@ -156,7 +156,7 @@
     "spNicName": "spNic",
     "virtualNetworkResourceGroupName": "vnet",
     "virtualNetworkName": "vnet",
-    "subnetId": "/subscriptions/8f073ab4-010c-4c4a-ae51-ea5a69114402/resourceGroups/VNET/providers/Microsoft.Network/virtualNetworks/VNET/subnets/v-backend",
+    "subnetRef": "[concat(variables('vnetId'), '/subnets/', variables('sqlSubnetName'))]",
     "vnetID": "[resourceId(variables('virtualNetworkResourceGroupName'), 'Microsoft.Network/virtualNetworks', variables('virtualNetworkName'))]",
     "sqlSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('sqlSubnetName'))]",
     "spSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('spSubnetName'))]",
@@ -265,7 +265,7 @@
             "value": "[variables('spCANAT')]"
           },
           "subnetId": {
-            "value": "[variables('subnetId')]"
+            "value": "[variables('subnetRef')]"
           }
         }
       }
